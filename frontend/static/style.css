@@ -1,0 +1,181 @@
+/* --- Modern RAG Chatbot UI Design 2026 --- */
+:root {
+    --primary-color: #2563eb;
+    --bg-light: #f8fafc;
+    --bot-bubble: #ffffff;
+    --user-bubble: #2563eb;
+    --border-color: #e2e8f0;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --citation-bg: #f1f5f9;
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: 'Inter', system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Chat Container */
+.chat-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    height: 85vh;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Scrollable Message Area */
+#chat-box {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Message Bubbles */
+.message {
+    max-width: 80%;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.25rem;
+    line-height: 1.6;
+    border-radius: 0.75rem;
+    font-size: 0.95rem;
+    
+    /* FIX FOR FORMATTING: Preserves newlines and spaces */
+    white-space: pre-wrap; 
+}
+
+.message.bot {
+    align-self: flex-start;
+    background: var(--bot-bubble);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+
+.message.user {
+    align-self: flex-end;
+    background: var(--user-bubble);
+    color: white;
+}
+
+/* Sources Styling */
+.sources-container {
+    margin-top: 0.75rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.source-tag {
+    display: inline-block;
+    background: var(--citation-bg);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    margin-right: 0.4rem;
+    margin-bottom: 0.2rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+/* Typing Cursor */
+.cursor {
+    display: inline-block;
+    width: 6px;
+    height: 16px;
+    background-color: var(--primary-color);
+    animation: blink 1s infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Input Area */
+.input-area {
+    padding: 1.5rem;
+    background: white;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 0.75rem;
+}
+
+.input-area input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-area input:focus {
+    border-color: var(--primary-color);
+}
+
+.input-area button {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.input-area button:hover {
+    background-color: #1d4ed8;
+}
+/* Add this to the bottom of style.css */
+.thinking {
+    color: #64748b;
+    font-style: italic;
+    font-size: 0.9rem;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+.message-wrapper {
+    position: relative;
+    padding-top: 10px; /* Make space for the button */
+}
+
+.copy-btn {
+    position: absolute;
+    top: -5px;
+    right: 0;
+    background-color: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    color: #64748b;
+    font-size: 0.7rem;
+    cursor: pointer;
+    padding: 2px 8px;
+    z-index: 10; /* Ensure it's on top of everything */
+    transition: all 0.2s;
+}
+
+.copy-btn:hover {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+

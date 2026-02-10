@@ -1,0 +1,21 @@
+# --- Core Framework ---
+llama-index-core
+llama-index-readers-file
+
+# --- Database & Storage ---
+qdrant-client
+llama-index-vector-stores-qdrant
+
+# --- Local AI Models (Ollama) ---
+llama-index-llms-ollama
+llama-index-embeddings-ollama
+
+# --- Advanced Features (Re-Ranker) ---
+sentence-transformers
+llama-index-postprocessor-sbert-rerank
+
+# --- Web Interface ---
+flask
+python-dotenv
+# extract images from PDFs
+pymupdf
