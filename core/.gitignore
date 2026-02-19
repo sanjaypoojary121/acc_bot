@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Qdrant database storage
+qdrant_storage/
+
+# Extracted images
+frontend/static/extracted_images/
+
+# Data PDFs (optional if you don't want them in repo)
+data/
+
+# OS files
+.DS_Store
+Thumbs.db

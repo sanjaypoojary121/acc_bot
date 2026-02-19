@@ -179,3 +179,12 @@ body {
     border-color: #2563eb;
 }
 
+
+/* --- IMAGES IN CHAT --- */
+.message img {
+    max-width: 100%;       /* Prevents image from being wider than the chat bubble */
+    height: auto;          /* Keeps the aspect ratio correct */
+    border-radius: 8px;    /* Rounds the corners nicely */
+    margin-top: 10px;      /* Adds some space above the image */
+    border: 1px solid #ddd; /* Adds a subtle border */
+}

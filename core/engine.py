@@ -11,44 +11,58 @@ from qdrant_client import QdrantClient
 from llama_index.postprocessor.sbert_rerank import SentenceTransformerRerank
 from llama_index.core.memory import ChatMemoryBuffer
 
+
 Settings.embed_model = OllamaEmbedding(model_name="nomic-embed-text")
 
 Settings.llm = Ollama(
-    model="llama3.2:1b", 
-    request_timeout=120.0, 
-    context_window=4096, 
-    temperature=0.1 
+    model="llama3.2:1b",   
+    request_timeout=120.0,
+    context_window=4096,
+    temperature=0.0,
 )
 
+
 def get_chat_engine():
-    client = QdrantClient(host="localhost", port=6333)
-    vector_store = QdrantVectorStore(collection_name="large_dataset_v1", client=client)
+    client = QdrantClient(host="localhost", port=6333, timeout=60)
+
+    vector_store = QdrantVectorStore(
+        collection_name="large_dataset_v1",
+        client=client,
+    )
+
     index = VectorStoreIndex.from_vector_store(vector_store=vector_store)
 
     rerank_postprocessor = SentenceTransformerRerank(
-        model="BAAI/bge-reranker-base", 
-        top_n=5
+        model="BAAI/bge-reranker-base",
+        top_n=2,  
     )
 
-    memory = ChatMemoryBuffer.from_defaults(token_limit=3000)
+    memory = ChatMemoryBuffer.from_defaults(token_limit=2000)
 
     system_prompt = (
-        "You are a helpful assistant for the user's documents. "
-        "Use the context provided below to answer the user's question.\n"
-        "GUIDELINES:\n"
-        "1. If the context contains the answer, explain it clearly.\n"
-        "2. If the context mentions the topic but is incomplete, summarize what is there.\n"
-        "3. Only say 'I don't know' if the context is completely unrelated.\n"
-        "4. Be polite and professional."
+        "You are a STRICT document-only assistant.\n\n"
+
+        "MANDATORY RULES:\n"
+        "1. Answer ONLY using retrieved context.\n"
+        "2. If answer not found, reply EXACTLY:\n"
+        "'No data available in the provided documents.'\n"
+        "3. If user asks for a diagram and context contains [IMAGE_REF:], "
+        "reply ONLY: 'Please refer to the figure below.'\n"
+        "4. Never mention copyright.\n"
+        "5. Never say you cannot create images.\n"
+        "6. Never use outside knowledge.\n"
+        "7. Maximum 4 lines.\n"
+        "8. Never draw ASCII diagrams.\n"
     )
 
     chat_engine = index.as_chat_engine(
         chat_mode="context",
         memory=memory,
         system_prompt=system_prompt,
-        similarity_top_k=15, 
+        similarity_top_k=10,
         node_postprocessors=[rerank_postprocessor],
-        streaming=True 
+        response_mode="compact",
+        streaming=True,
     )
-    
+
     return chat_engine
